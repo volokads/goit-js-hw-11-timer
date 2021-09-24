@@ -1,37 +1,44 @@
 import refs from './refs.js'
-const {daysCounter,  hoursCounter, minsCounter, secsCounter} = refs
+const {timerbyId ,daysCounter,  hoursCounter, minsCounter, secsCounter} = refs
 
 class CountdownTimer {
-  constructor(targetDate) {
+  constructor({selector, targetDate }) {
     this.targetDate = targetDate
-    this.selectorID = null
-    this.time = 0
+    this.selector = selector
   }
-  start() {
-    this.targetDate = this.targetDate.targetDate.getTime()
-    this.intrvalId = setInterval(() => {
+
+intervalStart = setInterval(() => {
     let currentDate = Date.now()
-    this.time = this.targetDate - currentDate
-    const days = Math.floor(this.time / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((this.time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((this.time % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((this.time % (1000 * 60)) / 1000);
+    const time = this.targetDate - currentDate
+  this.getDataTime(time)
+  this.finishTimerCount(time)
+}, 1000);
+
+  getDataTime(time) {
+    const days = Math.floor(time / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((time % (1000 * 60)) / 1000);
+
     
     this.insertData(daysCounter, days)
     this.insertData(hoursCounter, hours)
     this.insertData(minsCounter, mins)
     this.insertData(secsCounter, secs)
-    }, 1000);
   }
-    insertData(place, value) {
-    place.textContent = value
+   insertData(place, value) {
+   place.textContent = value
+  }
+  finishTimerCount(time) {
+    if (time <= 0) {
+      clearInterval(this.intervalStart)
+    }
   }
 }
 
 const Timer = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Jul 17, 2019'),
+  targetDate: new Date('Jul 17, 2022'),
 });
-console.log(Timer);
-Timer.start()
+
 
