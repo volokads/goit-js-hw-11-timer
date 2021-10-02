@@ -1,13 +1,19 @@
-import refs from './refs.js'
-const {timerbyId ,daysCounter,  hoursCounter, minsCounter, secsCounter} = refs
+// import refs from './refs.js'
+// const {timerbyId ,daysCounter,  hoursCounter, minsCounter, secsCounter} = refs
 
 class CountdownTimer {
   constructor({selector, targetDate }) {
     this.targetDate = targetDate
     this.selector = selector
+    this.refs = {
+      daysCounter: document.querySelector(`${this.selector} span[data-value="days"]`),
+      hoursCounter: document.querySelector(`${this.selector} span[data-value="hours"]`),
+      minsCounter: document.querySelector(`${this.selector} span[data-value="mins"]`),
+      secsCounter: document.querySelector(`${this.selector} span[data-value="secs"]`),
+    }
   }
-
-intervalStart = setInterval(() => {
+  
+  intervalStart = setInterval(() => {
     let currentDate = Date.now()
     const time = this.targetDate - currentDate
   this.getDataTime(time)
@@ -21,10 +27,10 @@ intervalStart = setInterval(() => {
     const secs = Math.floor((time % (1000 * 60)) / 1000);
 
     
-    this.insertData(daysCounter, days)
-    this.insertData(hoursCounter, hours)
-    this.insertData(minsCounter, mins)
-    this.insertData(secsCounter, secs)
+    this.insertData(this.refs.daysCounter, days)
+    this.insertData(this.refs.hoursCounter, hours)
+    this.insertData(this.refs.minsCounter, mins)
+    this.insertData(this.refs.secsCounter, secs)
   }
    insertData(place, value) {
    place.textContent = value
